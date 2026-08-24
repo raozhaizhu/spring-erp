@@ -34,3 +34,7 @@ build/
 
 ### NODE ###
 node_modules/
+
+#### DOCKER ###
+docker/
+*.log
