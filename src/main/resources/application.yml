@@ -2,6 +2,8 @@ server:
   port: 8080
 
 spring:
+  main:
+    banner-mode: "off"
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/spring_erp?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
@@ -16,5 +18,14 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
   global-config:
+    banner: false
     db-config:
-      logic-delete-field: deleted
+      logic-delete-field: delete_flag     # 全局逻辑删除字段名
+      logic-delete-value: 1               # 逻辑已删除值
+      logic-not-delete-value: 0           # 逻辑未删除值
+
+logging:
+  level:
+    root: WARN
+    org.springframework: WARN
+    org.flywaydb: WARN
