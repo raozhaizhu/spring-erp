@@ -10,10 +10,10 @@ CREATE TABLE `material_category` (
   `sort` varchar(10) DEFAULT NULL COMMENT '显示顺序',
   `serial_no` varchar(100) DEFAULT NULL COMMENT '编号',
   `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户id',
   `delete_flag` varchar(1) DEFAULT '0' COMMENT '删除标记，0未删除，1删除',
+    `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_parent_id` (`parent_id`),
   KEY `idx_tenant_id` (`tenant_id`)

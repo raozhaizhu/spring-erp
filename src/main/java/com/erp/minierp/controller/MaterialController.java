@@ -31,13 +31,13 @@ public class MaterialController {
 
 
     @GetMapping("/list")
-    public Result list(MaterialQueryParam param){
+    public Result<Page<Material>> list(@Valid MaterialQueryParam param){
         Page<Material> page = materialService.selectMaterialPage(param);
         return Result.success(page);
     }
 
     @GetMapping("/{id}")
-    public Result getInfo(@PathVariable Long id){
+    public Result<Material> getInfo(@PathVariable Long id){
         Material material = materialService.getById(id);
         if (material == null) {
             return Result.error(404, "材料不存在");
@@ -46,18 +46,18 @@ public class MaterialController {
     }
 
     @PostMapping
-    public Result<Material> add(@RequestBody @Valid MaterialAddRequest request) {
+    public Result<Material> add(@RequestBody @Valid MaterialAddRequest materialAddRequest) {
         Material material = new Material();
-        BeanUtils.copyProperties(request, material);
+        BeanUtils.copyProperties(materialAddRequest, material);
 
         materialService.save(material);
         return Result.success( material);
     }
 
     @PutMapping
-    public Result<Void> update(@RequestBody @Valid MaterialUpdateRequest request) {
+    public Result<Void> update(@RequestBody @Valid MaterialUpdateRequest materialUpdateRequest) {
         Material material = new Material();
-        BeanUtils.copyProperties(request, material);
+        BeanUtils.copyProperties(materialUpdateRequest, material);
 
         boolean success = materialService.updateById(material);
         if (!success) {
@@ -69,10 +69,8 @@ public class MaterialController {
 
     @DeleteMapping("/{ids}")
     public Result<Void> delete(@PathVariable List<Long> ids) {
-        boolean success = materialService.removeByIds(ids);
-        if (!success) {
-            return Result.error(404, "删除失败：目标材料不存在");
-        }
+         materialService.removeByIds(ids);
+
         return Result.success();
     }
 }
