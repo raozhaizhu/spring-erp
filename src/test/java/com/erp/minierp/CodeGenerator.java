@@ -21,14 +21,14 @@ public class CodeGenerator {
                 // 2. 包名配置
                 .packageConfig(builder -> {
                     builder.parent("com.erp.minierp")
-                            .entity("datasource.entities")
+                            .entity("datasource.entity")
                             .mapper("mapper")
                             .service("service")
                             .controller("controller");
                 })
                 // 3. 策略配置
                 .strategyConfig(builder -> {
-                    builder.addInclude("material") // 对应数据库里的真实表名
+                    builder.addInclude("depot") // 对应数据库里的真实表名
                             .entityBuilder()
                             .enableLombok()
                             .idType(IdType.AUTO)

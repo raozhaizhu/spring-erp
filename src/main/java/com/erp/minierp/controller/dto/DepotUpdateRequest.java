@@ -6,8 +6,8 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class MaterialUpdateRequest extends MaterialAddRequest {
+public class DepotUpdateRequest  extends DepotAddRequest{
 
-    @NotNull(message = "修改时必须指定商品 ID")
+    @NotNull(message = "修改时必须指定仓库 id")
     private Long id;
 }

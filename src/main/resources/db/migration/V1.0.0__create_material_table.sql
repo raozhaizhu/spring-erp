@@ -28,6 +28,8 @@ CREATE TABLE `material` (
   `attribute` varchar(1000) DEFAULT NULL COMMENT '多属性信息',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户id',
   `delete_flag` varchar(1) DEFAULT '0' COMMENT '删除标记，0未删除，1删除',
+    `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_category_id` (`category_id`),
   KEY `idx_unit_id` (`unit_id`),
