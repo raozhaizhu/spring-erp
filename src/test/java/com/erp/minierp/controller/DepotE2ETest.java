@@ -75,10 +75,12 @@ class DepotE2ETest {
         Depot newDepot = RandomBuilder.randomDepot();
 
         mockMvc.perform(post("/depot")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newDepot)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(newDepot)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(0));
+                .andExpect(jsonPath("$.code").value(0))
+                .andExpect(jsonPath("$.data.treePath")
+                        .value(org.hamcrest.Matchers.matchesPattern("0,\\d+,")));
     }
 
     // ==================== 4. 修改仓库测试 ====================
@@ -113,9 +115,25 @@ class DepotE2ETest {
     @Test
     @DisplayName("DELETE /depot/{ids} - 真实删除仓库（执行后自动回滚）")
     void testDelete_Success() throws Exception {
-        mockMvc.perform(delete("/depot/1,2"))
+        // ID 4、5 均是初始化数据中的叶子节点，可被安全删除。
+        mockMvc.perform(delete("/depot/4,5"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(0));
+    }
+
+    @Test
+    @DisplayName("DELETE /depot/{ids} - 存在子仓库时禁止删除")
+    void testDelete_WithChildren_Failed() throws Exception {
+        Depot parent = depotService.createDepot(RandomBuilder.randomDepot());
+        Depot child = RandomBuilder.randomDepot();
+        child.setParentId(parent.getId());
+        depotService.createDepot(child);
+
+        mockMvc.perform(delete("/depot/{ids}", parent.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(400))
+                .andExpect(jsonPath("$.msg").value("仓库 [" + parent.getName()
+                        + "] 下存在子仓库，无法直接删除！请先处理下级仓库。"));
     }
 
 }
