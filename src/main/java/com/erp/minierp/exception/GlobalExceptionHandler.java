@@ -16,6 +16,16 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     /**
+     * 0. 自定义业务异常 (如：仓库下有子节点、库存不足等拦截)
+     * 策略：这是预期内的业务拦截，使用 warn 级别记录日志，返回异常中自带的 code 和 message
+     */
+    @ExceptionHandler(BusinessException.class)
+    public Result<Void> handleBusinessException(BusinessException e) {
+        log.warn("业务拦截提示: code = {}, msg = {}", e.getCode(), e.getMessage());
+        return Result.error(e.getCode(), e.getMessage());
+    }
+
+    /**
      * 1. 唯一索引冲突 (如：新增/修改了重复的商品名称、条码)
      */
     @ExceptionHandler(DuplicateKeyException.class)

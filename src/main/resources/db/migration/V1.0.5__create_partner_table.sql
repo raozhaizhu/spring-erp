@@ -1,4 +1,3 @@
--- V1.0.5__create_supplier_table.sql
 -- Author: raozhaizhu
 -- Date: 2026/8/27 13:04
 

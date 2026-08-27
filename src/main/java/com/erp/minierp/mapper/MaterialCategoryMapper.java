@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author raozhaizhu
- * @since 2026-08-24
+ * @since 2026-08-27
  */
 public interface MaterialCategoryMapper extends BaseMapper<MaterialCategory> {
 

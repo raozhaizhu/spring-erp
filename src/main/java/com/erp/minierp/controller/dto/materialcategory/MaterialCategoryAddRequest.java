@@ -1,11 +1,12 @@
-package com.erp.minierp.controller.dto.depot;
+package com.erp.minierp.controller.dto.materialcategory;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class DepotAddRequest extends DepotBaseRequest {
+public class MaterialCategoryAddRequest extends MaterialCategoryBaseRequest {
+
     /**
      * 父分类 ID，0 表示顶级分类。
      */

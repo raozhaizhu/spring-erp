@@ -1,7 +1,9 @@
 package com.erp.minierp;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
-import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine; // 引入了
+import com.baomidou.mybatisplus.generator.config.TemplateType;
+import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
 public class CodeGenerator {
     public static void main(String[] args) {
@@ -26,13 +28,22 @@ public class CodeGenerator {
                             .service("service")
                             .controller("controller");
                 })
-                // 3. 策略配置
+                // 3. 模板配置：禁用 Controller 和 Service/ServiceImpl 模板
+                .templateConfig(builder -> {
+                    builder.disable(TemplateType.CONTROLLER);
+                    builder.disable(TemplateType.SERVICE);
+                    builder.disable(TemplateType.SERVICE_IMPL);
+                })
+                // 4. 策略配置
                 .strategyConfig(builder -> {
-                    builder.addInclude("depot") // 对应数据库里的真实表名
+                    builder.addInclude("material", "material_category", "depot", "partner") // 对应数据库里的真实表名
                             .entityBuilder()
                             .enableLombok()
                             .idType(IdType.AUTO)
-                            .enableTableFieldAnnotation();
+                            .enableTableFieldAnnotation()
+                            .enableFileOverride()
+                            .mapperBuilder()
+                            .enableFileOverride();
                 })
                 // 执行生成
                 .execute();

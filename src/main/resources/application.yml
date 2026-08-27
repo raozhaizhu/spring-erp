@@ -13,6 +13,8 @@ spring:
     compose:
       lifecycle:
         management: start-only
+  flyway:
+    repair-on-migrate: true
 
 mybatis-plus:
   configuration:

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,7 @@ import lombok.Setter;
  * </p>
  *
  * @author raozhaizhu
- * @since 2026-08-24
+ * @since 2026-08-27
  */
 @Getter
 @Setter
@@ -25,22 +26,34 @@ public class Material implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键
+     * 主键 ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 产品类型id
+     * 租户 ID
+     */
+    @TableField("tenant_id")
+    private Long tenantId;
+
+    /**
+     * 产品类型 ID
      */
     @TableField("category_id")
     private Long categoryId;
 
     /**
-     * 名称
+     * 产品名称
      */
     @TableField("name")
     private String name;
+
+    /**
+     * 品牌
+     */
+    @TableField("brand")
+    private String brand;
 
     /**
      * 制造商
@@ -61,13 +74,7 @@ public class Material implements Serializable {
     private String standard;
 
     /**
-     * 品牌
-     */
-    @TableField("brand")
-    private String brand;
-
-    /**
-     * 助记码
+     * 助记码（用于快速检索）
      */
     @TableField("mnemonic")
     private String mnemonic;
@@ -79,28 +86,16 @@ public class Material implements Serializable {
     private String color;
 
     /**
-     * 单位-单个
-     */
-    @TableField("unit")
-    private String unit;
-
-    /**
-     * 备注
-     */
-    @TableField("remark")
-    private String remark;
-
-    /**
-     * 图片名称
-     */
-    @TableField("img_name")
-    private String imgName;
-
-    /**
-     * 单位Id
+     * 单位 ID（关联计量单位表）
      */
     @TableField("unit_id")
     private Long unitId;
+
+    /**
+     * 基础重量 (kg)
+     */
+    @TableField("weight")
+    private BigDecimal weight;
 
     /**
      * 保质期天数
@@ -109,68 +104,68 @@ public class Material implements Serializable {
     private Integer expiryNum;
 
     /**
-     * 基础重量(kg)
-     */
-    @TableField("weight")
-    private BigDecimal weight;
-
-    /**
-     * 启用 0-禁用 1-启用
-     */
-    @TableField("enabled")
-    private Boolean enabled;
-
-    /**
-     * 自定义1
-     */
-    @TableField("other_field1")
-    private String otherField1;
-
-    /**
-     * 自定义2
-     */
-    @TableField("other_field2")
-    private String otherField2;
-
-    /**
-     * 自定义3
-     */
-    @TableField("other_field3")
-    private String otherField3;
-
-    /**
-     * 是否开启序列号，0否，1是
-     */
-    @TableField("enable_serial_number")
-    private String enableSerialNumber;
-
-    /**
-     * 是否开启批号，0否，1是
-     */
-    @TableField("enable_batch_number")
-    private String enableBatchNumber;
-
-    /**
-     * 仓位货架
+     * 默认仓位货架
      */
     @TableField("position")
     private String position;
 
     /**
-     * 多属性信息
+     * 启用状态：0-禁用，1-启用
      */
-    @TableField("attribute")
-    private String attribute;
+    @TableField("enabled")
+    private Byte enabled;
 
     /**
-     * 租户id
+     * 是否开启序列号管理：0-否，1-是
      */
-    @TableField("tenant_id")
-    private Long tenantId;
+    @TableField("enable_serial_number")
+    private Byte enableSerialNumber;
 
     /**
-     * 删除标记，0未删除，1删除
+     * 是否开启批号管理：0-否，1-是
+     */
+    @TableField("enable_batch_number")
+    private Byte enableBatchNumber;
+
+    /**
+     * 备注
+     */
+    @TableField("remark")
+    private String remark;
+
+    /**
+     * 动态扩展属性
+     */
+    @TableField("extra_attributes")
+    private String extraAttributes;
+
+    /**
+     * 逻辑删除标记：0-未删除，1-已删除
      */
     @TableField("delete_flag")
-    private String deleteFlag;
+    private Byte deleteFlag;
+
+    /**
+     * 创建人 ID
+     */
+    @TableField("create_by")
+    private Long createBy;
+
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    private LocalDateTime createTime;
+
+    /**
+     * 更新人 ID
+     */
+    @TableField("update_by")
+    private Long updateBy;
+
+    /**
+     * 更新时间
+     */
+    @TableField("update_time")
+    private LocalDateTime updateTime;
 }

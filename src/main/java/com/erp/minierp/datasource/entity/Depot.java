@@ -16,7 +16,7 @@ import lombok.Setter;
  * </p>
  *
  * @author raozhaizhu
- * @since 2026-08-26
+ * @since 2026-08-27
  */
 @Getter
 @Setter
@@ -26,16 +26,34 @@ public class Depot implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键
+     * 主键 ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 父仓库ID（0表示顶级仓库）
+     * 租户 ID
+     */
+    @TableField("tenant_id")
+    private Long tenantId;
+
+    /**
+     * 父仓库 ID（0表示顶级仓库）
      */
     @TableField("parent_id")
     private Long parentId;
+
+    /**
+     * 树形节点路径（如: 0,1,2,）
+     */
+    @TableField("tree_path")
+    private String treePath;
+
+    /**
+     * 仓库编码（如 WH-001）
+     */
+    @TableField("code")
+    private String code;
 
     /**
      * 仓库名称
@@ -44,76 +62,82 @@ public class Depot implements Serializable {
     private String name;
 
     /**
+     * 仓库类型：1-普通仓，2-冷藏仓，3-虚拟仓，4-中转仓
+     */
+    @TableField("type")
+    private Byte type;
+
+    /**
      * 仓库地址
      */
     @TableField("address")
     private String address;
 
     /**
-     * 仓储费
+     * 仓储费率/单价
      */
     @TableField("warehousing")
     private BigDecimal warehousing;
 
     /**
-     * 搬运费
+     * 搬运费率/单价
      */
     @TableField("truckage")
     private BigDecimal truckage;
 
     /**
-     * 类型
+     * 负责人 ID（关联用户表）
      */
-    @TableField("type")
-    private Integer type;
+    @TableField("principal_id")
+    private Long principalId;
 
     /**
-     * 排序
+     * 显示顺序（数值越小越靠前）
      */
     @TableField("sort")
-    private String sort;
+    private Integer sort;
 
     /**
-     * 描述
+     * 是否默认仓库：0-否，1-是
+     */
+    @TableField("is_default")
+    private Byte isDefault;
+
+    /**
+     * 启用状态：0-禁用，1-启用
+     */
+    @TableField("enabled")
+    private Byte enabled;
+
+    /**
+     * 描述/备注
      */
     @TableField("remark")
     private String remark;
 
     /**
-     * 负责人
-     */
-    @TableField("principal")
-    private Long principal;
-
-    /**
-     * 启用
-     */
-    @TableField("enabled")
-    private Boolean enabled;
-
-    /**
-     * 租户id
-     */
-    @TableField("tenant_id")
-    private Long tenantId;
-
-    /**
-     * 删除标记，0未删除，1删除
+     * 逻辑删除标记：0-未删除，1-已删除
      */
     @TableField("delete_flag")
-    private String deleteFlag;
+    private Byte deleteFlag;
 
     /**
-     * 是否默认
+     * 创建人 ID
      */
-    @TableField("is_default")
-    private Boolean isDefault;
+    @TableField("create_by")
+    private Long createBy;
 
     /**
      * 创建时间
      */
     @TableField("create_time")
     private LocalDateTime createTime;
+
+    /**
+     * 更新人 ID
+     */
+    @TableField("update_by")
+    private Long updateBy;
 
     /**
      * 更新时间
