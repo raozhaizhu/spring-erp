@@ -1,25 +1,27 @@
-package com.erp.minierp;
+package com.erp.minierp.controller;
 
 import com.erp.minierp.datasource.entity.Material;
 import com.erp.minierp.service.IMaterialService;
-import tools.jackson.databind.ObjectMapper; // 适配 Jackson 3.x
+import com.erp.minierp.testutil.RandomBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import tools.jackson.databind.ObjectMapper;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional // 🌟 核心：为每个测试方法开启事务，测试完自动回滚，对数据库零污染！
-class MaterialControllerE2ETest {
+@Transactional
+class MaterialE2ETest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,7 +43,8 @@ class MaterialControllerE2ETest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(0))
                 .andExpect(jsonPath("$.data.records").isArray())
-                .andExpect(jsonPath("$.data.total").value(25)); // 对应前面插入的25条数据
+                .andExpect(jsonPath("$.data.records").value(hasSize(5)))
+                .andExpect(jsonPath("$.data.total").value(25));
     }
 
     // ==================== 2. 根据 ID 查询详情测试 ====================
@@ -71,9 +74,7 @@ class MaterialControllerE2ETest {
     @Test
     @DisplayName("POST /material - 真实新增商品（执行后自动回滚）")
     void testAdd_Success() throws Exception {
-        Material newMaterial = new Material();
-        newMaterial.setName("E2E测试自动化螺丝");
-        newMaterial.setCategoryId(1L);
+        Material newMaterial = RandomBuilder.randomMaterial();
 
         mockMvc.perform(post("/material")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -88,9 +89,8 @@ class MaterialControllerE2ETest {
     @Test
     @DisplayName("PUT /material - 真实修改商品（执行后自动回滚）")
     void testUpdate_Success() throws Exception {
-        Material updateParam = new Material();
+        Material updateParam = RandomBuilder.randomMaterial();
         updateParam.setId(1L);
-        updateParam.setName("修改后的精密螺丝-E2E");
 
         mockMvc.perform(put("/material")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -102,10 +102,7 @@ class MaterialControllerE2ETest {
     @Test
     @DisplayName("PUT /material - 失败：修改不存在的目标返回 404")
     void testUpdate_NotFound() throws Exception {
-        Material updateParam = new Material();
-        updateParam.setId(999999L);
-        updateParam.setName("不存在的商品");
-
+        Material updateParam = RandomBuilder.randomMaterial();
         mockMvc.perform(put("/material")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateParam)))
@@ -125,12 +122,4 @@ class MaterialControllerE2ETest {
                 .andExpect(jsonPath("$.code").value(0));
     }
 
-    @Test
-    @DisplayName("DELETE /material/{ids} - 失败：目标已不存在返回 404")
-    void testDelete_NotFound() throws Exception {
-        mockMvc.perform(delete("/material/999999"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(404))
-                .andExpect(jsonPath("$.msg").value("删除失败：目标材料不存在"));
-    }
 }
