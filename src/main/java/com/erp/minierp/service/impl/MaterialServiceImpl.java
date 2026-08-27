@@ -3,11 +3,11 @@ package com.erp.minierp.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.erp.minierp.controller.param.MaterialQueryParam;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.erp.minierp.controller.param.MaterialListParam;
 import com.erp.minierp.datasource.entity.Material;
 import com.erp.minierp.mapper.MaterialMapper;
 import com.erp.minierp.service.IMaterialService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> implements IMaterialService {
-    public Page<Material> selectMaterialPage(MaterialQueryParam param){
+    public Page<Material> selectMaterialPage(MaterialListParam param) {
         // 1. 构建分页对象
         Page<Material> page = new Page<>(param.getPageNum(), param.getPageSize());
 
@@ -32,4 +32,6 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
         // 3. 执行 MyBatis-Plus 自带的分页查询
         return this.page(page, wrapper);
     }
+
+
 }

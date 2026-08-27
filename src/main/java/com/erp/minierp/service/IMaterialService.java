@@ -1,9 +1,9 @@
 package com.erp.minierp.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.erp.minierp.controller.param.MaterialQueryParam;
-import com.erp.minierp.datasource.entity.Material;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.erp.minierp.controller.param.MaterialListParam;
+import com.erp.minierp.datasource.entity.Material;
 
 /**
  * <p>
@@ -14,5 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2026-08-24
  */
 public interface IMaterialService extends IService<Material> {
-    Page<Material> selectMaterialPage(MaterialQueryParam param);
+    Page<Material> selectMaterialPage(MaterialListParam param);
+
+
 }

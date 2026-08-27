@@ -1,16 +1,16 @@
 package com.erp.minierp.mapper;
 
-import com.erp.minierp.datasource.entity.Depot;
+import com.erp.minierp.datasource.entity.Partner;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
- * 仓库表 Mapper 接口
+ * 往来单位(客户/供应商)表 Mapper 接口
  * </p>
  *
  * @author raozhaizhu
  * @since 2026-08-27
  */
-public interface DepotMapper extends BaseMapper<Depot> {
+public interface PartnerMapper extends BaseMapper<Partner> {
 
 }

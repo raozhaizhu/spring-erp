@@ -1,9 +1,11 @@
 package com.erp.minierp.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.erp.minierp.controller.param.DepotListParam;
 import com.erp.minierp.datasource.entity.Depot;
-import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,4 +18,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IDepotService extends IService<Depot> {
 
     Page<Depot> selectDepotPage(DepotListParam depotListParam);
+
+    Depot createDepot(Depot depot);
+
+    void removeDepots(List<Long> ids);
+
 }

@@ -2,9 +2,9 @@ package com.erp.minierp.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.erp.minierp.common.Result;
-import com.erp.minierp.controller.dto.MaterialAddRequest;
-import com.erp.minierp.controller.dto.MaterialUpdateRequest;
-import com.erp.minierp.controller.param.MaterialQueryParam;
+import com.erp.minierp.controller.dto.material.MaterialAddRequest;
+import com.erp.minierp.controller.dto.material.MaterialUpdateRequest;
+import com.erp.minierp.controller.param.MaterialListParam;
 import com.erp.minierp.datasource.entity.Material;
 import com.erp.minierp.service.IMaterialService;
 import jakarta.validation.Valid;
@@ -31,13 +31,13 @@ public class MaterialController {
 
 
     @GetMapping("/list")
-    public Result<Page<Material>> list(@Valid MaterialQueryParam param){
+    public Result<Page<Material>> list(@Valid MaterialListParam param) {
         Page<Material> page = materialService.selectMaterialPage(param);
         return Result.success(page);
     }
 
     @GetMapping("/{id}")
-    public Result<Material> getInfo(@PathVariable Long id){
+    public Result<Material> getInfo(@PathVariable Long id) {
         Material material = materialService.getById(id);
         if (material == null) {
             return Result.error(404, "材料不存在");
@@ -51,7 +51,7 @@ public class MaterialController {
         BeanUtils.copyProperties(materialAddRequest, material);
 
         materialService.save(material);
-        return Result.success( material);
+        return Result.success(material);
     }
 
     @PutMapping
@@ -69,8 +69,7 @@ public class MaterialController {
 
     @DeleteMapping("/{ids}")
     public Result<Void> delete(@PathVariable List<Long> ids) {
-         materialService.removeByIds(ids);
-
+        materialService.removeByIds(ids);
         return Result.success();
     }
 }
