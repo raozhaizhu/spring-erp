@@ -6,9 +6,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class DepotAddRequest extends DepotBaseRequest {
-
     /**
-     * 父仓库ID（0表示顶级仓库）
+     * 父分类 ID，0 表示顶级分类。
      */
     private Long parentId = 0L;
 }

@@ -25,8 +25,9 @@ CREATE TABLE `material_category` (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
 
   PRIMARY KEY (`id`),
+  -- 同一个租户下，分类编号不能重复
   UNIQUE KEY `uk_tenant_serial` (`tenant_id`, `serial_no`),
-  UNIQUE KEY `uk_tenant_parent_name` (`tenant_id`, `parent_id`, `name`),
-  KEY `idx_parent_id` (`parent_id`),
-  KEY `idx_tenant_id` (`tenant_id`)
+  -- 同一个租户、同一个父节点下，不能出现同名的兄弟节点
+  UNIQUE KEY `uk_tenant_parent_name` (`tenant_id`, `parent_id`, `name`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='产品类型表';

@@ -1,5 +1,6 @@
 package com.erp.minierp.controller.dto.material;
 
+
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -7,6 +8,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class MaterialUpdateRequest extends MaterialBaseRequest {
+
 
     /**
      * 产品 ID（修改时必填）
